@@ -11,7 +11,7 @@ COPY src/MapApi.Domain/MapApi.Domain.csproj src/MapApi.Domain/
 COPY src/MapApi.Application/MapApi.Application.csproj src/MapApi.Application/
 COPY src/MapApi.Infrastructure/MapApi.Infrastructure.csproj src/MapApi.Infrastructure/
 COPY src/MapApi.Api/MapApi.Api.csproj src/MapApi.Api/
-RUN dotnet restore MapApi.slnx
+RUN dotnet restore src/MapApi.Api/MapApi.Api.csproj
 
 # Copy everything else and build
 COPY . .
