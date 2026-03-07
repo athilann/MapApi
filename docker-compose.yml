@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongodb:
     image: mongo:7
@@ -10,6 +8,18 @@ services:
       - mongodb_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: map_api
+
+  api:
+    build: .
+    container_name: mapapi-app
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__MongoDB=mongodb://mongodb:27017
+      - DatabaseName=map_api
+    depends_on:
+      - mongodb
+    restart: unless-stopped
 
 volumes:
   mongodb_data:
