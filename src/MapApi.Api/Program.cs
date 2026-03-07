@@ -19,14 +19,11 @@ var app = builder.Build();
 var database = app.Services.GetRequiredService<MongoDB.Driver.IMongoDatabase>();
 await MongoGeoIndexConfig.EnsureIndexesAsync(database);
 
-if (app.Environment.IsDevelopment())
+app.MapOpenApi();
+app.UseSwaggerUI(options =>
 {
-    app.MapOpenApi();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/openapi/v1.json", "MapApi v1");
-    });
-}
+    options.SwaggerEndpoint("/openapi/v1.json", "MapApi v1");
+});
 
 app.UseHttpsRedirection();
 
