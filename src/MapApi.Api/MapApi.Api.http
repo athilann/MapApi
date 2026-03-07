@@ -1,0 +1,23 @@
+@MapApi.Api_HostAddress = http://localhost:5138
+
+GET {{MapApi.Api_HostAddress}}/api/map-objects?longitude=2.2945&latitude=48.8584&radiusInMeters=1000
+Accept: application/json
+
+###
+
+GET {{MapApi.Api_HostAddress}}/api/map-objects/REPLACE_WITH_ID
+Accept: application/json
+
+###
+
+POST {{MapApi.Api_HostAddress}}/api/map-objects
+Content-Type: application/json
+
+{
+  "name": "Eiffel Tower",
+  "description": "Famous Paris landmark",
+  "longitude": 2.2945,
+  "latitude": 48.8584
+}
+
+###
