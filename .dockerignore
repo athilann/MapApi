@@ -1,0 +1,10 @@
+**/.git
+**/.gitignore
+**/.github
+**/bin
+**/obj
+**/node_modules
+**/README.md
+**/LICENSE
+**/docker-compose.yml
+**/tests
