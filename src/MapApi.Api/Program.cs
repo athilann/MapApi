@@ -22,6 +22,10 @@ await MongoGeoIndexConfig.EnsureIndexesAsync(database);
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "MapApi v1");
+    });
 }
 
 app.UseHttpsRedirection();
