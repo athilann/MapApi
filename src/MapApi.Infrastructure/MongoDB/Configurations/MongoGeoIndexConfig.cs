@@ -9,7 +9,9 @@ public static class MongoGeoIndexConfig
         var collection = database.GetCollection<MongoMapObjectDocument>("map_objects");
         var indexKeysDefinition = Builders<MongoMapObjectDocument>.IndexKeys
             .Geo2DSphere(d => d.Location);
-        var indexModel = new CreateIndexModel<MongoMapObjectDocument>(indexKeysDefinition);
+        var indexModel = new CreateIndexModel<MongoMapObjectDocument>(
+            indexKeysDefinition,
+            new CreateIndexOptions { Name = "location_2dsphere" });
         await collection.Indexes.CreateOneAsync(indexModel);
     }
 }
