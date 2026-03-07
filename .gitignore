@@ -45,6 +45,9 @@ artifacts/
 # dotnet CLI tool
 .dotnet/
 
+# Node.js (commitlint)
+node_modules/
+
 # OS
 .DS_Store
 Thumbs.db
