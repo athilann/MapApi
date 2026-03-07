@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MapApi.Api/MapApi.Api.csproj" />
+    <Project Path="src/MapApi.Application/MapApi.Application.csproj" />
+    <Project Path="src/MapApi.Domain/MapApi.Domain.csproj" />
+    <Project Path="src/MapApi.Infrastructure/MapApi.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MapApi.Api.Tests/MapApi.Api.Tests.csproj" />
+    <Project Path="tests/MapApi.Application.Tests/MapApi.Application.Tests.csproj" />
+    <Project Path="tests/MapApi.Domain.Tests/MapApi.Domain.Tests.csproj" />
+    <Project Path="tests/MapApi.Infrastructure.Tests/MapApi.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>
