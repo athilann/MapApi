@@ -1,0 +1,12 @@
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/bin/Debug/net10.0/MapApi.Domain.deps.json
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/bin/Debug/net10.0/MapApi.Domain.dll
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/bin/Debug/net10.0/MapApi.Domain.pdb
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.AssemblyInfoInputs.cache
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.AssemblyInfo.cs
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.csproj.CoreCompileInputs.cache
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.sourcelink.json
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.dll
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/refint/MapApi.Domain.dll
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/MapApi.Domain.pdb
+/home/runner/work/MapApi/MapApi/src/MapApi.Domain/obj/Debug/net10.0/ref/MapApi.Domain.dll
