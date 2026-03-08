@@ -9,23 +9,19 @@ public class GetMapObjectsInAreaRequestTests
     [Fact]
     public void Properties_ShouldHaveCorrectValidationAttributes()
     {
-        var longitudeProp = typeof(GetMapObjectsInAreaRequest).GetProperty(nameof(GetMapObjectsInAreaRequest.Longitude))!;
-        var latitudeProp = typeof(GetMapObjectsInAreaRequest).GetProperty(nameof(GetMapObjectsInAreaRequest.Latitude))!;
-        var radiusProp = typeof(GetMapObjectsInAreaRequest).GetProperty(nameof(GetMapObjectsInAreaRequest.RadiusInMeters))!;
+        var lonRange = typeof(GetMapObjectsInAreaRequest).GetProperty(nameof(GetMapObjectsInAreaRequest.Longitude))!
+            .GetCustomAttributes(typeof(RangeAttribute), false).Cast<RangeAttribute>().Single();
+        var latRange = typeof(GetMapObjectsInAreaRequest).GetProperty(nameof(GetMapObjectsInAreaRequest.Latitude))!
+            .GetCustomAttributes(typeof(RangeAttribute), false).Cast<RangeAttribute>().Single();
+        var radRange = typeof(GetMapObjectsInAreaRequest).GetProperty(nameof(GetMapObjectsInAreaRequest.RadiusInMeters))!
+            .GetCustomAttributes(typeof(RangeAttribute), false).Cast<RangeAttribute>().Single();
 
-        Assert.NotNull(longitudeProp.GetCustomAttributes(typeof(RangeAttribute), false).FirstOrDefault());
-        Assert.NotNull(latitudeProp.GetCustomAttributes(typeof(RangeAttribute), false).FirstOrDefault());
-        Assert.NotNull(radiusProp.GetCustomAttributes(typeof(RangeAttribute), false).FirstOrDefault());
-
-        var lonRange = (RangeAttribute)longitudeProp.GetCustomAttributes(typeof(RangeAttribute), false).First();
         Assert.Equal(-180.0, Convert.ToDouble(lonRange.Minimum));
         Assert.Equal(180.0, Convert.ToDouble(lonRange.Maximum));
 
-        var latRange = (RangeAttribute)latitudeProp.GetCustomAttributes(typeof(RangeAttribute), false).First();
         Assert.Equal(-90.0, Convert.ToDouble(latRange.Minimum));
         Assert.Equal(90.0, Convert.ToDouble(latRange.Maximum));
 
-        var radRange = (RangeAttribute)radiusProp.GetCustomAttributes(typeof(RangeAttribute), false).First();
         Assert.Equal(1.0, Convert.ToDouble(radRange.Minimum));
     }
 
