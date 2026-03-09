@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_DATABASE: map_api
 
   api:
-    build: .
+    build: ./backend
     container_name: mapapi-app
     ports:
       - "8080:8080"
@@ -19,6 +19,15 @@ services:
       - DatabaseName=map_api
     depends_on:
       - mongodb
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: mapapi-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
     restart: unless-stopped
 
 volumes:
