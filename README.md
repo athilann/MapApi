@@ -1,10 +1,62 @@
 # MapApi
 
-A Clean Architecture Map API built with .NET 10 Minimal API and MongoDB that returns objects to plot on a map with longitude and latitude.
+A monorepo containing a Clean Architecture .NET 10 Map API (backend) and a React + TypeScript frontend.
 
-## Architecture
+## Repository Structure
 
-The solution follows Clean Architecture principles with strict separation of concerns:
+```
+MapApi/
+├── .github/workflows/
+│   ├── backend-ci.yml        # Backend build & test
+│   ├── backend-deploy.yml    # Backend deploy to VPS
+│   ├── frontend-ci.yml       # Frontend build & test
+│   └── frontend-deploy.yml   # Frontend deploy to VPS
+├── backend/
+│   ├── src/
+│   │   ├── MapApi.Api/
+│   │   ├── MapApi.Application/
+│   │   ├── MapApi.Domain/
+│   │   └── MapApi.Infrastructure/
+│   ├── tests/
+│   │   ├── MapApi.Api.Tests/
+│   │   ├── MapApi.Application.Tests/
+│   │   ├── MapApi.Domain.Tests/
+│   │   └── MapApi.Infrastructure.Tests/
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   └── MapApi.slnx
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── types/
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   └── index.css
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── nginx.conf
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── vite.config.ts
+├── docker-compose.yml
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+## Prerequisites
+
+- .NET 10 SDK (backend)
+- Node.js 20+ (frontend)
+- Docker & Docker Compose
+
+## Backend
+
+The backend follows Clean Architecture principles with strict separation of concerns:
 
 ```
 src/
@@ -19,27 +71,22 @@ tests/
 └── MapApi.Api.Tests/
 ```
 
-## Prerequisites
-
-- .NET 10 SDK
-- MongoDB (or Docker)
-
-## Running Locally
+### Running the Backend Locally
 
 1. Start MongoDB:
 ```bash
-docker-compose up -d
+docker compose up -d mongodb
 ```
 
 2. Run the API:
 ```bash
-cd src/MapApi.Api
+cd backend/src/MapApi.Api
 dotnet run
 ```
 
-3. Open the OpenAPI document at `https://localhost:{port}/openapi/v1.json`
+3. Open the OpenAPI document at `http://localhost:8080/openapi/v1.json`
 
-## API Endpoints
+### Backend API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -47,27 +94,44 @@ dotnet run
 | GET | `/api/map-objects/{id}` | Get map object by ID |
 | POST | `/api/map-objects` | Create a new map object |
 
-### POST /api/map-objects
+## Frontend
 
-Request body:
-```json
-{
-  "name": "Eiffel Tower",
-  "description": "Famous Paris landmark",
-  "longitude": 2.2945,
-  "latitude": 48.8584
-}
+React 18 + TypeScript + Vite app with a service layer architecture. All API calls go through `frontend/src/services/`.
+
+### Running the Frontend Locally
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
 ```
+
+The dev server proxies `/api` requests to `http://localhost:8080`.
+
+## Running Everything Together
+
+```bash
+docker compose up -d --build
+```
+
+This starts:
+- `mongodb` on port 27017
+- `api` (backend) on port 8080
+- `frontend` on port 3000
 
 ## CI/CD
 
-### Build and Test
+Each app has completely independent pipelines. A change in `backend/` never triggers frontend workflows and vice versa.
 
-A GitHub Actions workflow (`.github/workflows/build-and-test.yml`) runs on every push and pull request to `main` and `develop`. It restores, builds, and tests the solution against a MongoDB service container.
+| Workflow | Trigger | Scope |
+|----------|---------|-------|
+| `backend-ci.yml` | Push/PR to main/develop with `backend/**` changes | Build & test backend |
+| `backend-deploy.yml` | Push to main with `backend/**` changes (or manual) | Deploy backend to VPS |
+| `frontend-ci.yml` | Push/PR to main/develop with `frontend/**` changes | Build & test frontend |
+| `frontend-deploy.yml` | Push to main with `frontend/**` changes (or manual) | Deploy frontend to VPS |
 
-### Deploy to VPS
-
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) deploys the Docker container to an Ubuntu VPS on Hostinger when pushing to `main` (or via manual dispatch).
+On the VPS, each service is built and deployed independently. The root `docker-compose.yml` ties everything together for local development only.
 
 **Required GitHub Secrets:**
 
