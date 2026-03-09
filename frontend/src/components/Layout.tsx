@@ -3,34 +3,26 @@ import './Layout.css'
 
 interface Props {
   children: ReactNode
+  onSearch: () => void
   onCreatePoint: () => void
-  onGetPointsNearMe: () => void
 }
 
-export default function Layout({
-  children,
-  onCreatePoint,
-  onGetPointsNearMe,
-}: Props) {
+export default function Layout({ children, onSearch, onCreatePoint }: Props) {
   return (
     <div className="layout">
       <header className="header">
-        <span className="header-icon">🗺️</span>
-        <span className="header-title">Map View</span>
+        <span className="header-title">MAP VIEW</span>
       </header>
-      <div className="main-content">
-        <aside className="sidebar">
-          <div className="menu-title">Menu</div>
-          <nav className="menu-nav">
-            <button className="menu-item" onClick={onCreatePoint}>
-              Create a Point
-            </button>
-            <button className="menu-item" onClick={onGetPointsNearMe}>
-              Get points near me
-            </button>
-          </nav>
-        </aside>
-        <main className="content">{children}</main>
+      <div className="map-area">
+        <div className="overlay-controls">
+          <button className="overlay-btn search-btn" onClick={onSearch}>
+            SEARCH
+          </button>
+          <button className="overlay-btn create-btn" onClick={onCreatePoint}>
+            +
+          </button>
+        </div>
+        {children}
       </div>
     </div>
   )
