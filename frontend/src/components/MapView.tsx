@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Circle } from 'react-leaflet'
+import { useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Circle, useMap } from 'react-leaflet'
 import { LatLng, Icon, type LeafletMouseEvent } from 'leaflet'
 import type { MapObjectResponse } from '../types/mapObject'
 import './MapView.css'
@@ -29,12 +30,24 @@ const highlightedIcon = new Icon({
   className: 'highlighted-marker',
 })
 
+const RADIUS_OPTIONS = [
+  { label: '1 km', value: 1000 },
+  { label: '5 km', value: 5000 },
+  { label: '10 km', value: 10000 },
+  { label: '50 km', value: 50000 },
+  { label: '100 km', value: 100000 },
+  { label: 'Custom', value: -1 },
+]
+
 interface Props {
   mapObjects: MapObjectResponse[]
   highlightedPointId?: string | null
   radiusSelection?: { center: LatLng; radiusInMeters: number } | null
   isSelectingLocation?: boolean
   onMapClick?: (latlng: LatLng) => void
+  userLocation?: LatLng | null
+  radiusSelectValue: number
+  onRadiusChange: (value: number) => void
 }
 
 function MapClickHandler({ onClick }: { onClick: (latlng: LatLng) => void }) {
@@ -46,12 +59,23 @@ function MapClickHandler({ onClick }: { onClick: (latlng: LatLng) => void }) {
   return null
 }
 
+function FlyToLocation({ location }: { location: LatLng }) {
+  const map = useMap()
+  useEffect(() => {
+    map.flyTo(location, 13)
+  }, [map, location])
+  return null
+}
+
 export default function MapView({
   mapObjects,
   highlightedPointId,
   radiusSelection,
   isSelectingLocation,
   onMapClick,
+  userLocation,
+  radiusSelectValue,
+  onRadiusChange,
 }: Props) {
   const defaultCenter: [number, number] = [51.505, -0.09] // London
   const defaultZoom = 3
@@ -70,6 +94,7 @@ export default function MapView({
         />
         
         {onMapClick && <MapClickHandler onClick={onMapClick} />}
+        {userLocation && <FlyToLocation location={userLocation} />}
         
         {mapObjects.map((obj) => (
           <Marker
@@ -103,6 +128,22 @@ export default function MapView({
           Click on the map to select a location
         </div>
       )}
+
+      <div className="radius-selector">
+        <label htmlFor="radius-select" className="radius-label">Radius</label>
+        <select
+          id="radius-select"
+          value={radiusSelectValue}
+          onChange={(e) => onRadiusChange(parseInt(e.target.value, 10))}
+          className="radius-select"
+        >
+          {RADIUS_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   )
 }

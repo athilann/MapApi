@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
+import type { LatLng } from 'leaflet'
 import { createMapObject } from '../services/mapObjectService'
 import type { CreateMapObjectRequest } from '../types/mapObject'
 import Dialog from './Dialog'
@@ -8,17 +9,28 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   onCreated: () => void
+  prefillLocation?: LatLng | null
 }
 
-export default function CreatePointDialog({ isOpen, onClose, onCreated }: Props) {
+export default function CreatePointDialog({ isOpen, onClose, onCreated, prefillLocation }: Props) {
   const [form, setForm] = useState<CreateMapObjectRequest>({
     name: '',
     description: '',
-    longitude: 0,
-    latitude: 0,
+    longitude: prefillLocation?.lng ?? 0,
+    latitude: prefillLocation?.lat ?? 0,
   })
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (prefillLocation) {
+      setForm((prev) => ({
+        ...prev,
+        longitude: prefillLocation.lng,
+        latitude: prefillLocation.lat,
+      }))
+    }
+  }, [prefillLocation])
 
   const resetForm = () => {
     setForm({ name: '', description: '', longitude: 0, latitude: 0 })
@@ -83,6 +95,8 @@ export default function CreatePointDialog({ isOpen, onClose, onCreated }: Props)
               type="number"
               step="any"
               value={form.longitude}
+              readOnly={!!prefillLocation}
+              className={prefillLocation ? 'readonly-input' : ''}
               onChange={(e) =>
                 setForm({ ...form, longitude: parseFloat(e.target.value) || 0 })
               }
@@ -97,6 +111,8 @@ export default function CreatePointDialog({ isOpen, onClose, onCreated }: Props)
               type="number"
               step="any"
               value={form.latitude}
+              readOnly={!!prefillLocation}
+              className={prefillLocation ? 'readonly-input' : ''}
               onChange={(e) =>
                 setForm({ ...form, latitude: parseFloat(e.target.value) || 0 })
               }
