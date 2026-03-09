@@ -92,7 +92,6 @@ dotnet run
 |--------|----------|-------------|
 | GET | `/api/map-objects?longitude={lon}&latitude={lat}&radiusInMeters={r}` | Get map objects in area |
 | GET | `/api/map-objects/filter?longitude={lon}&latitude={lat}&radiusInMeters={r}&name={n}&description={d}&id={id}` | Filter map objects in area by name, description, or ID |
-| GET | `/api/map-objects/{id}` | Get map object by ID |
 | POST | `/api/map-objects` | Create a new map object |
 
 ## Frontend

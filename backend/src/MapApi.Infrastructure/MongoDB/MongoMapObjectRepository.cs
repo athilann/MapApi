@@ -16,13 +16,6 @@ internal class MongoMapObjectRepository : IMapObjectRepository
         _collection = database.GetCollection<MongoMapObjectDocument>("map_objects");
     }
 
-    public async Task<MapObject?> GetByIdAsync(string id, CancellationToken ct = default)
-    {
-        var filter = Builders<MongoMapObjectDocument>.Filter.Eq(d => d.Id, id);
-        var document = await _collection.Find(filter).FirstOrDefaultAsync(ct);
-        return document?.ToDomain();
-    }
-
     public async Task<IReadOnlyList<MapObject>> GetInAreaAsync(GeoCoordinate center, double radiusInMeters, CancellationToken ct = default)
     {
         var point = GeoJson.Point(new GeoJson2DGeographicCoordinates(center.Longitude, center.Latitude));

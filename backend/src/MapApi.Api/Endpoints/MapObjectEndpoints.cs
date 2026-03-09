@@ -35,17 +35,6 @@ public static class MapObjectEndpoints
         .WithName("FilterMapObjects")
         .WithSummary("Filter map objects within a geographic area by id, name, or description");
 
-        group.MapGet("/{id}", async (
-            string id,
-            GetMapObjectByIdUseCase useCase,
-            CancellationToken ct) =>
-        {
-            var result = await useCase.ExecuteAsync(id, ct);
-            return result is null ? Results.NotFound() : Results.Ok(result);
-        })
-        .WithName("GetMapObjectById")
-        .WithSummary("Get map object by ID");
-
         group.MapPost("/", async (
             CreateMapObjectRequest request,
             CreateMapObjectUseCase useCase,
