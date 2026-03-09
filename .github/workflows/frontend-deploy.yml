@@ -65,7 +65,7 @@ jobs:
           script_stop: true
           script: |
             cd /opt/mapapi
-            echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" > frontend/.env
+            export VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}
             docker compose up -d --build frontend
             docker image prune -f
 
