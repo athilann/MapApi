@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
-          source: "frontend/"
+          source: "frontend/,docker-compose.yml"
           target: /opt/mapapi
 
       - name: Deploy frontend on VPS
