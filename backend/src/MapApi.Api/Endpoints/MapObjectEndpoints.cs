@@ -23,6 +23,18 @@ public static class MapObjectEndpoints
         .WithName("GetMapObjectsInArea")
         .WithSummary("Get map objects in area");
 
+        group.MapGet("/filter", async (
+            [AsParameters] FilterMapObjectsRequest request,
+            FilterMapObjectsUseCase useCase,
+            CancellationToken ct) =>
+        {
+            var results = await useCase.ExecuteAsync(request, ct);
+            return Results.Ok(results);
+        })
+        .AddEndpointFilter<ValidationFilter<FilterMapObjectsRequest>>()
+        .WithName("FilterMapObjects")
+        .WithSummary("Filter map objects within a geographic area by id, name, or description");
+
         group.MapGet("/{id}", async (
             string id,
             GetMapObjectByIdUseCase useCase,
