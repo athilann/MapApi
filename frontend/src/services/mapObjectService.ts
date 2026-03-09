@@ -15,11 +15,6 @@ export const getMapObjectsInArea = (
     })
     .then((res) => res.data)
 
-export const getMapObjectById = (id: string): Promise<MapObjectResponse> =>
-  apiClient
-    .get<MapObjectResponse>(`/api/map-objects/${id}`)
-    .then((res) => res.data)
-
 export const createMapObject = (
   data: CreateMapObjectRequest,
 ): Promise<MapObjectResponse> =>
