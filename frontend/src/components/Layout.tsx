@@ -28,7 +28,7 @@ export default function Layout({
               Create a Point
             </button>
             <button className="menu-item" onClick={onGetPointById}>
-              Get Point by Id
+              Get Point by ID
             </button>
             <button className="menu-item" onClick={onGetPointsNearMe}>
               Get points near me
