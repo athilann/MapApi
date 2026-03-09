@@ -5,7 +5,6 @@ import type { MapObjectResponse } from '../types/mapObject'
 import Layout from '../components/Layout'
 import MapView from '../components/MapView'
 import CreatePointDialog from '../components/CreatePointDialog'
-import GetPointByIdDialog from '../components/GetPointByIdDialog'
 import RadiusSelectDialog from '../components/RadiusSelectDialog'
 
 export default function HomePage() {
@@ -14,7 +13,6 @@ export default function HomePage() {
   
   // Dialog states
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [isGetByIdDialogOpen, setIsGetByIdDialogOpen] = useState(false)
   const [isRadiusDialogOpen, setIsRadiusDialogOpen] = useState(false)
   
   // Location selection state
@@ -48,10 +46,6 @@ export default function HomePage() {
     setIsCreateDialogOpen(true)
   }
 
-  const handleGetPointById = () => {
-    setIsGetByIdDialogOpen(true)
-  }
-
   const handleGetPointsNearMe = () => {
     setIsSelectingLocation(true)
     setRadiusSelection(null)
@@ -69,20 +63,6 @@ export default function HomePage() {
   const handlePointCreated = () => {
     setRadiusSelection(null)
     fetchAllObjects()
-  }
-
-  const handlePointFound = (point: MapObjectResponse) => {
-    // Add the point to the map objects if not already present
-    setMapObjects((prev) => {
-      const exists = prev.some((p) => p.id === point.id)
-      if (exists) {
-        return prev
-      }
-      return [...prev, point]
-    })
-    // Highlight the found point
-    setHighlightedPointId(point.id)
-    setRadiusSelection(null)
   }
 
   const handleRadiusConfirm = (radiusInMeters: number) => {
@@ -104,7 +84,6 @@ export default function HomePage() {
   return (
     <Layout
       onCreatePoint={handleCreatePoint}
-      onGetPointById={handleGetPointById}
       onGetPointsNearMe={handleGetPointsNearMe}
     >
       <MapView
@@ -119,12 +98,6 @@ export default function HomePage() {
         isOpen={isCreateDialogOpen}
         onClose={() => setIsCreateDialogOpen(false)}
         onCreated={handlePointCreated}
-      />
-
-      <GetPointByIdDialog
-        isOpen={isGetByIdDialogOpen}
-        onClose={() => setIsGetByIdDialogOpen(false)}
-        onPointFound={handlePointFound}
       />
 
       <RadiusSelectDialog

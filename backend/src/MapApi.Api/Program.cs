@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddScoped<GetMapObjectsInAreaUseCase>();
-builder.Services.AddScoped<GetMapObjectByIdUseCase>();
 builder.Services.AddScoped<CreateMapObjectUseCase>();
+builder.Services.AddScoped<FilterMapObjectsUseCase>();
 
 builder.Services.AddOpenApi();
 
