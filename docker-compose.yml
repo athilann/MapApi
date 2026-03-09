@@ -17,6 +17,7 @@ services:
     environment:
       - ConnectionStrings__MongoDB=mongodb://mongodb:27017
       - DatabaseName=map_api
+      - Cors__AllowedOrigins=${CORS_ALLOWED_ORIGINS:-*}
     depends_on:
       - mongodb
     restart: unless-stopped

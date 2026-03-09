@@ -13,6 +13,27 @@ builder.Services.AddScoped<CreateMapObjectUseCase>();
 
 builder.Services.AddOpenApi();
 
+var corsOriginsConfig = builder.Configuration["Cors:AllowedOrigins"] ?? "*";
+var allowedOrigins = corsOriginsConfig
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        if (allowedOrigins.Length == 1 && allowedOrigins[0] == "*")
+        {
+            policy.AllowAnyOrigin();
+        }
+        else
+        {
+            policy.WithOrigins(allowedOrigins);
+        }
+
+        policy.AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Ensure geospatial indexes
@@ -24,6 +45,8 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/openapi/v1.json", "MapApi v1");
 });
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
