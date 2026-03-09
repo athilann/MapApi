@@ -1,7 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Circle } from 'react-leaflet'
 import { LatLng, Icon, type LeafletMouseEvent } from 'leaflet'
 import type { MapObjectResponse } from '../types/mapObject'
-import 'leaflet/dist/leaflet.css'
 import './MapView.css'
 
 // Fix for default marker icons in Leaflet with webpack/vite
