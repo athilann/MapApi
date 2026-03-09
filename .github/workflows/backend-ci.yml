@@ -1,13 +1,19 @@
-name: Build and Test
+name: Backend CI
 
 on:
   push:
     branches: [ main, develop ]
+    paths: [ 'backend/**' ]
   pull_request:
     branches: [ main, develop ]
+    paths: [ 'backend/**' ]
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    working-directory: backend
 
 jobs:
   build-and-test:
