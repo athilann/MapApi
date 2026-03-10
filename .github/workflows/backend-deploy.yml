@@ -57,7 +57,9 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
-          script: rm -rf /opt/mapapi/backend
+          script: |
+            rm -rf /opt/mapapi/backend
+            mkdir -p /opt/mapapi
 
       - name: Copy backend to VPS
         uses: appleboy/scp-action@v0.1.7
